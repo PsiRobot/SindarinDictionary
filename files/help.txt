@@ -1,0 +1,93 @@
+Kurzinfos:
+@Autor: PsiRobot
+@Datum: 31.01.2021
+@Kontakt: eliasduenkel@gmail.com
+
+
+1.0 Sindarin - Kurzgrammatik
+Für eine vollständige Grammatik siehe: http://www.sindarin.de/grammatik.shtml
+
+1.1 Verben
+(Nicht verfügbar)
+
+1.1.1 A-Verben
+(Nicht verfügbar)
+
+1.1.2 I-Verben
+(Nicht verfügbar)
+
+1.1.3 Vergangenheit
+(Nicht verfügbar)
+
+1.1.4 Zukunft
+(Nicht verfügbar)
+
+1.2 Substantive
+(Nicht verfügbar)
+
+1.2.1 Kasus
+(Nicht verfügbar)
+
+1.3 Adjektive und Adverbien
+(Nicht verfügbar)
+
+1.4 Pronomen
+(Nicht verfügbar)
+
+1.5 Mutationen
+(Nicht verfügbar)
+
+1.6 Syntax
+(Nicht verfügbar)
+
+
+2.0 Suchen
+Der Suchalgorithmus sucht in der aktuell eingestellten Sprache nach Worten, die dem eingegebenen Wort entsprechen. Der Algorithmus ist Case-insensitive. Außerdem werden ähnliche Vokale und Konsonanten ersetzt, sodass eine höhere Übereinstimmung besteht. Die meisten Sonderzeichen werden ignoriert.
+
+2.1 Suchoptionen
+Mithilfe der Auswahlfelder kann man die Sprachoption zwischen Sindarin - Englisch (Sin-Eng) und Englisch - Sindarin (Eng - Sin) wechseln. Mithilfe des Tagfilters kann man die Suchergebnisse vorfiltern, bevor sie verglichen werden. Für eine Erklärung der Tag-Kürzel siehe Kapitel 6.0.
+
+2.1.1 Specific
+(Nicht verfügbar)
+
+2.1.2 Synonyms
+(Nicht verfügbar)
+
+2.1.3 Regex
+Suche mithilfe von Regular Expressions.
+
+
+3.0 Anzeige
+Die Anzeige gliedert sich in drei Felder: Words, Meanings und Description.
+
+
+4.0 Entwicklermodus
+Im Entwicklermodus kann man über die GUI auf die Datenbank zugreifen und sie verändern. Außerdem kann man den 'Hilfe'-Text verändern (Work in Progress). Zum Aktivieren des Entwicklermodus geben Sie unter dem Hilfe-Menü unter dem Punkt Developer-Mode folgendes Passwort ein: IkgpInformatik
+(Hash = 3cb778c938144f884d57f174abcccb34f250156f)
+
+
+5.0 Datenspeicherung
+Die Daten werden in einer SQlite3 Datenank gespeichert. Diese Datenbank ist als 'db'-File im 'files'-Ordner gespeichert. Backups werden in 'files/backup.txt' im Json Format hinterlegt. Es empfiehlt sich vor der Nutzung ein Backup der Datenbank zu machen, um im Falle eines technischen Problems nicht alle Daten zu verlieren.
+
+
+6.0 Abkkürzungen
+All = Keine Filter, es werden alle Kategorien angezeigt
+Arch. = Archologisch, Worte die nicht mehr benutzt werden
+Astron. = Astronomisch
+Biol. = Biologisch. Körperteile von Lebewesen fallen unter diese Kategorie
+Bot. = Botanisch. Pflanzen und Bäume zählen dazu
+Cal. = Kalendar. Worte die zur Unterteilung der Zeit verwendet werden
+Geog. = Geographisch
+Geol. = Geologisch
+Orn. = Ornitoligisch
+Poet. = Poetisch, nicht im regulären Sprachgebrauch verwendet
+Pop. = Populationen. Rassennamen und Bevölkerungsbezeichnungen fallen darunter
+Zool. = Zoologisch
+adj. = Adjektive
+adv. = Adverbien
+ext. = Extense, metaphorische Verwendung
+n. = Nomen
+num. = Nummern. Ordinal, kardinal u.a. Zahlen fallen unter diese Kategorie
+pref. = Präfixe
+pron. = Pronomen
+v. = Verben
