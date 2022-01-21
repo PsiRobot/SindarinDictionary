@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 import re
 import hashlib
 
-rep = {
+char_to_replace = {
     'î': 'i', 'í': 'i', 'û': 'u', 'ú': 'u', 'ó': 'o', 'ë': 'e', 'é': 'e',
     'â': 'a', 'ŷ': 'y', 'ý': 'y', 'ö': 'oe', 'ü': 'ue', 'ä': 'ae', '(': '',
     ')': '', '[': '', ']': '', '?': '', "'": '', '"': ''
@@ -14,12 +15,12 @@ hash_algorithms = {
     'blake2b': hashlib.blake2b, 'blake2s': hashlib.blake2s,
     'sha3_224': hashlib.sha3_224, 'sha3_256': hashlib.sha3_256,
     'sha3_384': hashlib.sha3_384, 'sha3_512': hashlib.sha3_512
-    }
+}
 
 
 def pyhash(string, alg):
     """
-    return the hash from hash algorythmus alg
+    Hash the "string" according to "alg".
     >>> pyhash('Hello World', 'sha1')
     '0a4d55a8d778e5022fab701977c5d840bbc486d0'
     """
@@ -32,6 +33,9 @@ def pyhash(string, alg):
 
 
 def clean(string):
+    """
+    Function used for removing special characters in order to allow processing.
+    """
     string = string.lower()
     chars = {'"': '', "'": '', '(': '', ')': '', '?': ''}
     for k, v in zip(chars.keys(), chars.values()):
@@ -41,8 +45,14 @@ def clean(string):
 
 
 def like(x, y):
+    """
+    Determine if two strings are similar.
+    >>> like("bc", "abcd")
+    True
+    >>> like("abcd", "bc")
+    """
     x, y = x.lower().strip(), y.lower().strip()
-    for k, v in zip(rep.keys(), rep.values()):
+    for k, v in zip(char_to_replace.keys(), char_to_replace.values()):
         x = x.replace(k, v)
         y = y.replace(k, v)
     if y.find(x) != -1:
@@ -50,6 +60,10 @@ def like(x, y):
 
 
 def match(regex, word):
+    """
+    Determine if "regex" matches "word"
+    >>> match(r"w[a-z]{:5}", "word")
+    """
     try:
         if re.match(regex, word) is not None:
             return True
@@ -62,3 +76,5 @@ def match(regex, word):
 if __name__ == '__main__':
     from doctest import testmod
     testmod()
+
+#TODO: Integrate "clean" into "like"

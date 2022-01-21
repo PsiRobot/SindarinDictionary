@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from tkinter import Text
 
 commands_to_remove = (
@@ -28,18 +29,26 @@ commands_to_remove = (
 
 
 class ReadOnlyText(Text):
+    """
+    A text widget that can not be used for writing by removing all bindings
+    assoziated with writing text. This unbinding happens on class level.
+    """
     tag_init = False
 
     def __init__(self, *args, **kw):
         Text.__init__(self, *args, **kw)
         if not ReadOnlyText.tag_init:
             self.init_tag()
-        bind_tags = tuple(tag if tag != "Text" else "ReadOnlyText" for tag in self.bindtags())
+        bind_tags = (tag if tag != "Text" else "ReadOnlyText" for tag in self.bindtags())
         self.bindtags(bind_tags)
 
+    # Unbindings as argument?
     def init_tag(self):
+        """
+        Removes all specified options
+        """
         for key in self.bind_class("Text"):
             if key not in commands_to_remove:
                 command = self.bind_class("Text", key)
                 self.bind_class("ReadOnlyText", key, command)
-        ReadOnlyText.tagInit = True
+        ReadOnlyText.tag_init = True

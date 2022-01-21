@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""
+This file contains all the gui logic.
+"""
 import tkinter as tk
 from tkinter import messagebox
 from read_only_text_3 import ReadOnlyText
@@ -17,8 +21,9 @@ FONT_COLOR2 = 'blue'
 
 class Caller:
     """
-    This Class is a mean to replace the permanent lambda *args, **kwargs: ... constructions.
-    It takes a function or method with its parameters and calls it, no matter the input.
+    This Class is a mean to replace the permanent lambda *args, **kwargs: ...
+    constructions. It takes a function or method with its parameters and calls
+    it, no matter the input.
     """
     def __init__(self, func, *args, **kwargs):
         self.func = func
@@ -30,6 +35,10 @@ class Caller:
 
 
 class AutoResizeText(ReadOnlyText):
+    """
+    This text widget resizes its rows to fit its contents. It is not meant
+    to be writable.
+    """
     def __init__(self, *args, **kwargs):
         super(AutoResizeText, self).__init__(*args, **kwargs)
         self.max_size = 3
@@ -48,6 +57,9 @@ class AutoResizeText(ReadOnlyText):
 
 
 class DefaultEntry(tk.Entry):
+    """
+    This class adds a default entry option.
+    """
     def __init__(self, parent, default_text, *args, **kwargs):
         super(DefaultEntry, self).__init__(parent, *args, **kwargs)
         self.default_text = default_text
@@ -58,7 +70,11 @@ class DefaultEntry(tk.Entry):
         self.bind("<FocusOut>", lambda e: self._check(0))
         self._check(0)
 
+    #TODO: Resolve cross-dependency between _default and _check
     def _default(self, exists):
+        """
+        Sublogic for displaying/hidding the default text.
+        """
         self.default = exists
         if exists:
             self.insert(0, self.default_text)
@@ -68,6 +84,9 @@ class DefaultEntry(tk.Entry):
             self.config(fg=self.normal_fg)
 
     def _check(self, mode):
+        """
+        Sets whether the default text should be displayed or not.
+        """
         if mode:
             if self.default:
                 self.delete(0, "end")
@@ -78,9 +97,15 @@ class DefaultEntry(tk.Entry):
                 self._default(True)
 
     def set_default(self, text):
+        """
+        Set the default text that will be shown if nothing is inserted.
+        """
         self.default_text = text
 
     def get(self):
+        """
+        Return the text that is inserted, returns '' if nothing is inserted.
+        """
         if self.default:
             return ''
         else:
@@ -88,9 +113,13 @@ class DefaultEntry(tk.Entry):
 
 
 class EditWindow:
+    """
+    """
     toplevel = None
 
     def __init__(self, parent):
+        """
+        """
         if self.toplevel is not None:
             self.toplevel.destroy()
         EditWindow.toplevel = tk.Toplevel(parent)
@@ -111,6 +140,8 @@ class EditWindow:
         self._setup()
 
     def _setup(self):
+        """
+        """
         self.toplevel.grid_rowconfigure(1, weight=1)
         self.toplevel.grid_columnconfigure(1, weight=1)
         self.edit_frame.grid(row=0, column=0, columnspan=2, sticky='nsew')
@@ -129,20 +160,30 @@ class EditWindow:
         self.confirm_button.grid(row=0, column=2, sticky='nsew')
 
     def exit(self, *args):
+        """
+        """
         self.toplevel.destroy()
         self.toplevel = None
 
     def add(self):
+        """
+        """
         pass
 
     def confirm(self):
+        """
+        """
         self.exit()
 
 
 class HelpWindow:
+    """
+    """
     toplevel = None
 
     def __init__(self, parent):
+        """
+        """
         if self.toplevel is not None:
             self.toplevel.destroy()
         HelpWindow.toplevel = tk.Toplevel(parent)
@@ -176,6 +217,8 @@ class HelpWindow:
         self._setup()
 
     def _setup(self):
+        """
+        """
         self.toplevel.grid_columnconfigure(1, weight=1)
         self.toplevel.grid_rowconfigure(1, weight=1)
         self.box.grid_columnconfigure(0, weight=1)
@@ -188,10 +231,14 @@ class HelpWindow:
         self.text.grid(row=1, column=1, columnspan=3, sticky='nsew')
 
     def exit(self, *args):
+        """
+        """
         self.toplevel.destroy()
         self.toplevel = None
 
     def search(self):
+        """
+        """
         word = self.search_var.get()
         tag = "see"
         self.length_var.set(len(word))
@@ -225,6 +272,8 @@ class HelpWindow:
         self.see()
 
     def see(self):
+        """
+        """
         self.text.tag_config("high", background="#ff6600")
         self.text.tag_remove("high", "1.0", "end")
         try:
@@ -237,9 +286,14 @@ class HelpWindow:
 
 
 class PasswordWindow:
+    """
+    The window where the user can enter the password to enter development mode.
+    """
     toplevel = None
 
     def __init__(self, parent, var):
+        """
+        """
         if self.toplevel is not None:
             self.toplevel.destroy()
         PasswordWindow.toplevel = tk.Toplevel(parent)
@@ -252,6 +306,8 @@ class PasswordWindow:
         self._setup()
 
     def _setup(self):
+        """
+        """
         self.toplevel.title('Password')
 
         for i in range(2):
@@ -263,10 +319,14 @@ class PasswordWindow:
         self.entry.focus_set()
 
     def exit(self):
+        """
+        """
         self.toplevel.destroy()
         self.toplevel = None
 
     def confirm(self):
+        """
+        """
         if pyhash(self.entry.get(), 'sha1') == PASSWORD:
             self.var.set(True)
         else:
@@ -275,6 +335,9 @@ class PasswordWindow:
 
 
 class Interface:
+    """
+    The root window.
+    """
     def __init__(self):
         self.root = tk.Tk()
         self.seeker = Seeker()
@@ -294,6 +357,7 @@ class Interface:
             SINDARIN: self.seeker.get(),
             ENGLISH: self.seeker.get(True)
         }
+        # Maybe there is a way to not hardcode these options?
         self.tag_options = [
             'All', 'Astron.', 'Cal.', 'Zool.', 'Biol.', 'Bot.', 'Orn.', 'Arch.', 'Poet.', 'Geog.', 'Geol.', 'Pop.'
         ]
@@ -395,9 +459,16 @@ class Interface:
         self.edit_button.grid(row=3, column=0, columnspan=2)
 
     def start(self):
+        """
+        Call to start the program.
+        """
         self.root.mainloop()
 
     def stop(self, ask=True):
+        """
+        Call to end the program. When ask is set to False the program will
+        terminate without promting for confirmation.
+        """
         if ask:
             if messagebox.askyesno('Exit', 'Do you want to exit?'):
                 self.root.destroy()
@@ -405,6 +476,8 @@ class Interface:
             self.root.destroy()
 
     def insert(self, ls, sort=True):
+        """
+        """
         if sort:
             ls = sorted(ls, key=clean)
         self.vocable_listbox.delete(0, "end")
@@ -412,10 +485,14 @@ class Interface:
             self.vocable_listbox.insert(idx, item)
 
     def change_dictionary(self):
+        """
+        """
         self.dictionary = self.language_options[self.language_var.get()]
         self.search()
 
     def highlight_word(self, tag, exists):
+        """
+        """
         if exists:
             self.vocab_entry2.tag_config(tag, foreground=FONT_COLOR2, relief='raised', underline=1)
             self.vocab_entry2.config(cursor='')
@@ -424,6 +501,8 @@ class Interface:
             self.vocab_entry2.config(cursor='xterm')
 
     def find(self, word):
+        """
+        """
         word = word
         specific = self.specific_var.get()
         if specific:
@@ -437,9 +516,13 @@ class Interface:
         self.insert(ls)
 
     def search(self):
+        """
+        """
         self.find(self.search_var.get())
 
     def show(self):
+        """
+        """
         try:
             idx = self.vocable_listbox.curselection()[0]
             key = self.vocable_listbox.get(idx)
@@ -450,6 +533,8 @@ class Interface:
             print('Nothing Selected')
 
     def display(self, word):
+        """
+        """
         try:
             self.vocab_entry1.delete("1.0", "end")
             self.vocab_entry2.delete("1.0", "end")
@@ -475,6 +560,8 @@ class Interface:
             print('could not load word.', e)
 
     def go_to(self, key):
+        """
+        """
         if self.displayed == SINDARIN:
             self.displayed = ENGLISH
         elif self.displayed == ENGLISH:
@@ -483,20 +570,30 @@ class Interface:
         self.display(word)
 
     def create_edit_window(self):
+        """
+        """
         if not self.development_mode.get():
             messagebox.showinfo('Access Denied', 'Developer mode is not enabled.')
             return
         EditWindow(self.root)
 
     def create_help_window(self):
+        """
+        """
         HelpWindow(self.root)
 
     def enable_developer_mode(self, *args):
+        """
+        """
         self.development_mode.set(False)
         PasswordWindow(self.root, self.development_mode)
 
     @staticmethod  # Remove if not needed anymore
     def not_implemented():
+        """
+        This message will be called if the user tries to access a feature
+        that has not been implemented yet.
+        """
         messagebox.showinfo('Info', 'Not Implemented')
 
 
@@ -505,3 +602,5 @@ if __name__ == '__main__':
     app.start()
 
 # TODO: Export all Methods to classes
+# TODO: Solve cross dependency between windows
+# TODO: Add multiple language translation support
